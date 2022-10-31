@@ -2,6 +2,9 @@
 _www
 .platform
 
+# Exclude vendor just from root.
+/vendor/
+
 # Ignore .env files as they are personal
 /.env
 
