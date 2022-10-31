@@ -64,6 +64,8 @@ projects:
     version: "2.0"
   auto_entitylabel:
     version: "1.2"
+  bad_judgement:
+    version: "1.0-rc39"
   better_formats:
     version: "1.0-beta2"
   block_class:
@@ -100,6 +102,8 @@ projects:
     version: "2.0-beta1"
   diff:
     version: "3.3"
+  disable_all_forms:
+    version: "1.x-dev"
   disable_login:
     version: "1.0"
   editor:
