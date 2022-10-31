@@ -33,6 +33,15 @@ function swaylocks_base_user_default_permissions_alter(&$data) {
 }
 
 /**
+ * Implements hook_strongarm_alter().
+ */
+function swaylocks_base_strongarm_alter(&$data) {
+  if (isset($data['user_register'])) {
+    $data['user_register']->value = 0; /* WAS: 1 */
+  }
+}
+
+/**
  * Implements hook_image_default_styles().
  */
 function swaylocks_base_image_default_styles() {

@@ -19,5 +19,8 @@ function swaylocks_base_features_override_default_overrides() {
   $overrides["user_permission.skip comment approval.roles|moderator"] = 'moderator';
   $overrides["user_permission.skip comment approval.roles|trusted"] = 'trusted';
 
+  // Exported overrides for: variable
+  $overrides["variable.user_register.value"] = 0;
+
  return $overrides;
 }

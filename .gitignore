@@ -5,6 +5,8 @@ _www
 # Exclude vendor just from root.
 /vendor/
 
+settings.local.php
+
 # Ignore .env files as they are personal
 /.env
 
