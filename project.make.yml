@@ -9,7 +9,7 @@ projects:
   # Core
   drupal:
     type: "core"
-    version: 7.78
+    version: 7.91
     patch:
       # Allow to specify SCRIPT HTML element attributes through drupal_add_js()
       # http://drupal.org/node/1664602#comment-6221066
@@ -17,7 +17,7 @@ projects:
 
       # Optimize node access queries.
       # https://drupal.org/comment/8516319#comment-8516319
-      - "https://drupal.org/files/issues/drupal-106721-optimize_node_access_queries-81.patch"
+      # - "https://drupal.org/files/issues/drupal-106721-optimize_node_access_queries-81.patch"
 
       # Statically cache node access grants
       # https://drupal.org/comment/8495029#comment-8495029
@@ -37,7 +37,7 @@ projects:
 
       # Xss filter() ignores malicious content in data-attributes and mangles image captions.
       # http://drupal.org/node/2105841
-      - "http://drupal.org/files/issues/do-2105841_no_protocol_filter-90.patch"
+      # "http://drupal.org/files/issues/do-2105841_no_protocol_filter-90.patch"
 
   # Contrib modules.
   acl:
