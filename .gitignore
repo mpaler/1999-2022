@@ -1,6 +1,5 @@
 
 _www
-vendor/
 .platform
 
 # Ignore .env files as they are personal
