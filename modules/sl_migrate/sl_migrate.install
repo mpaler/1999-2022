@@ -1,0 +1,13 @@
+<?php
+/**
+ * @file
+ * Implements hook_disable().
+ *
+ * the migration module should deregister its migrations
+ */
+function sc_migrate_disable() {
+  Migration::deregisterMigration('SwaylocksUser');
+  Migration::deregisterMigration('SwaylocksUserImage');  
+  Migration::deregisterMigration('SwaylocksProfile');
+}
+?>

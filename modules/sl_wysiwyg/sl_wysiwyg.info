@@ -1,0 +1,4 @@
+name = "Swaylocks Wysiwyg"
+description = ""
+package = "Custom Development"
+core = 7.x

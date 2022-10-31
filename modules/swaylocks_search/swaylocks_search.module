@@ -1,0 +1,20 @@
+<?php
+/**
+ * @file
+ * Code for the Swaylocks Search feature.
+ */
+
+include_once 'swaylocks_search.features.inc';
+
+/**
+ * Implements hook_preprocess_search_result().
+ */
+function swaylocks_search_preprocess_search_result(&$variables) {
+
+  $result = $variables['result'];
+  $info = array();
+  if (!empty($result['fields']['created'])) {
+    // Show date created on search result template vs. date udpated.
+    $variables['info_split']['date'] = format_date($result['fields']['created'], 'short');
+  }
+}

@@ -1,0 +1,306 @@
+<?php
+
+/**
+ * Disable dfp module.
+ */
+function swaylocks_base_update_7001() {
+  if (module_exists('dfp')) {
+    module_disable(array('dfp'));
+    drupal_uninstall_modules(array('dfp'));
+  }
+}
+
+/**
+ * Enable Spamicide, Spambot, Honeypot.
+ */
+function swaylocks_base_update_7002() {
+  module_enable(array(
+    'spamicide',
+    'spambot',
+    'honeypot',
+  ));
+}
+
+/**
+ * Enable rules_admin, rules_scheduler.
+ */
+function swaylocks_base_update_7003() {
+  module_enable(array(
+    'rules_admin',
+    'rules_scheduler',
+  ));
+}
+
+/**
+ * Enable features_override.
+ */
+function swaylocks_base_update_7004() {
+  module_enable(array(
+    'features_override'
+  ));
+}
+
+/**
+ * Enable privatemsg_roles.
+ */
+function swaylocks_base_update_7005() {
+  module_enable(array(
+    'privatemsg_roles'
+  ));
+}
+
+/**
+ * Disable og module.
+ */
+function swaylocks_base_update_7006() {
+
+  $module_list = array('commons_radioactivity_groups,commons_bw,commons_groups,og_ui,og');
+
+  // Disable the Toolbar module.
+  foreach ($module_list as $module) {
+    if (module_exists($module)) {
+      module_disable(array($module));
+      drupal_uninstall_modules(array($module));
+    }
+  }
+}
+
+/**
+ * Enable commons_follow_term.
+ */
+function swaylocks_base_update_7007() {
+  module_enable(array(
+    'commons_follow_term'
+  ));
+}
+
+/**
+ * Disable nodequeue.
+ */
+function swaylocks_base_update_7008() {
+
+  $module_list = array('nodequeue');
+  foreach ($module_list as $module) {
+    if (module_exists($module)) {
+      module_disable(array($module));
+      drupal_uninstall_modules(array($module));
+    }
+  }
+}
+
+/**
+ * Enable ckeditor module.
+ */
+function swaylocks_base_update_7009() {
+  module_enable(array(
+    'ckeditor',
+    'media',
+    'media_ckeditor',
+    'media_oembed',
+    'media_internet'
+  ));
+}
+
+/**
+ * Disable nodequeue.
+ */
+function swaylocks_base_update_7010() {
+
+  $module_list = array('commons_radioactivity');
+  foreach ($module_list as $module) {
+    if (module_exists($module)) {
+      module_disable(array($module));
+      drupal_uninstall_modules(array($module));
+    }
+  }
+}
+
+/**
+ * Delete {system} records for long-lost modules.
+ */
+function swaylocks_base_update_7011() {
+  $modules = array(
+    'commons',
+    'registration',
+    'registration_views',
+  );
+  db_delete('system')
+    ->condition('name', $modules, 'IN')
+    ->condition('type', 'module')
+    ->execute();
+}
+
+/**
+ * Rebuild registry.
+ */
+function swaylocks_base_update_7012() {
+  $modules = array(
+    'commons',
+  );
+  db_delete('system')
+    ->condition('name', $modules, 'IN')
+    ->condition('type', 'module')
+    ->execute();
+  registry_rebuild();
+  return;
+}
+
+/**
+ * Enable simplenews & mimemail.
+ */
+function swaylocks_base_update_7013() {
+  module_enable(array(
+    'simplenews',
+    'mailsystem',
+    'mimemail'
+
+  ));
+}
+
+/**
+ * Disable bbcode.
+ */
+function swaylocks_base_update_7014() {
+
+  $module_list = array('bbcode');
+  foreach ($module_list as $module) {
+    if (module_exists($module)) {
+      module_disable(array($module));
+      drupal_uninstall_modules(array($module));
+    }
+  }
+}
+
+/**
+ * Enable swaylocks_marketing feature.
+ */
+function swaylocks_base_update_7015() {
+  module_enable(array(
+    'swaylocks_marketing'
+  ));
+}
+
+/**
+ * Enable uuid & uuid_features.
+ */
+function swaylocks_base_update_7016() {
+  module_enable(array(
+    'uuid',
+    'uuid_features'
+  ));
+}
+
+/**
+ * Enable smtp auth module.
+ */
+function swaylocks_base_update_7017() {
+  module_enable(array(
+    'smtp'
+  ));
+}
+
+/**
+ * Disable clientside_validation.
+ */
+function swaylocks_base_update_7018() {
+  $module_list = array('clientside_validation_form','clientside_validation');
+  foreach ($module_list as $module) {
+    if (module_exists($module)) {
+      module_disable(array($module));
+    }
+  }
+  foreach ($module_list as $module) {
+    if (module_exists($module)) {
+      drupal_uninstall_modules(array($module));
+    }
+  }
+}
+
+/**
+ * Enable htmlmail module.
+ */
+function swaylocks_base_update_7019() {
+  module_enable(array(
+    'htmlmail',
+    'pathologic'
+  ));
+}
+
+/**
+ * Enable bounce module.
+ */
+function swaylocks_base_update_7020() {
+  module_enable(array(
+    'bounce'
+  ));
+}
+
+/**
+ * Disable unneeded modules.
+ */
+function swaylocks_base_update_7021() {
+  $module_list = array('poll','faq');
+  foreach ($module_list as $module) {
+    if (module_exists($module)) {
+      module_disable(array($module));
+    }
+  }
+  foreach ($module_list as $module) {
+    if (module_exists($module)) {
+      drupal_uninstall_modules(array($module));
+    }
+  }
+}
+
+/**
+ * Enable purge_users module.
+ */
+function swaylocks_base_update_7022() {
+  module_enable(array(
+    'purge_users'
+  ));
+}
+
+/**
+ * Enable swaylocks_marketing feature.
+ */
+function swaylocks_base_update_7023() {
+  module_enable(array(
+    's3fs'
+  ));
+}
+
+/**
+ * Enable s3fs_file_proxy.
+ */
+function swaylocks_base_update_7024() {
+  module_enable(array(
+    's3fs_file_proxy'
+  ));
+}
+
+/**
+ * Enable s3fs_migrate.
+ */
+function swaylocks_base_update_7025() {
+  module_enable(array(
+    's3fs_migrate'
+  ));
+}
+
+/**
+ * Disable s3fs_migrate.
+ */
+function swaylocks_base_update_7026() {
+  $module_list = array('s3fs_migrate');
+  foreach ($module_list as $module) {
+    if (module_exists($module)) {
+      module_disable(array($module));
+    }
+  }
+  foreach ($module_list as $module) {
+    if (module_exists($module)) {
+      drupal_uninstall_modules(array($module));
+    }
+  }
+}

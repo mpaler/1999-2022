@@ -1,0 +1,20 @@
+name = "Swaylocks Migrate"
+description = "Migration scripts to import from the D5 site"
+package = "Custom Development"
+core = 7.x
+
+dependencies[] = migrate
+dependencies[] = migrate_extras
+dependencies[] = profile2
+
+files[]=inc/swaylocks_migration.inc
+files[]=inc/swaylocks_user.inc
+
+files[]=inc/swaylocks_forums.inc
+
+files[]=inc/swaylocks_swaylopedia.inc
+files[]=inc/swaylocks_surfshop.inc
+;files[]=inc/swaylocks_files.inc
+files[]=inc/swaylocks_private_message.inc
+
+files[]=inc/swaylocks_faq.inc

@@ -1,0 +1,604 @@
+<?php
+/**
+ * @file
+ * Code for the Swaylocks_misc feature.
+ */
+
+include_once 'swaylocks_misc.features.inc';
+
+/**
+ * Implements hook_permission
+ */
+function swaylocks_misc_permission() {
+  return array(
+    'vote up down' => array(
+      'title' => t('Vote up or down on content'),
+      'description' => t('Vote up or down on swaylocks content.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function swaylocks_misc_menu_alter(&$items) {
+  // Override the default Message Subscribe UI and replace it with a similar
+  // Quicktabs-based one.
+  $items['user/%user/notification-settings']['title'] = 'Following';
+
+}
+
+/**
+ * Implements hook_commons_notify_message_selection_alter()
+ */
+function swaylocks_misc_commons_notify_message_selection_alter(&$message_type, &$hook, &$node) {
+  //dd($hook);
+  switch ($hook) {
+    case 'node_insert':
+      if ($message_type == 'commons_activity_streams_node_created') {
+        //$message_type == '';
+      }
+    //break;
+    case 'comment_insert':
+      if ($message_type == 'commons_notify_comment_created_no_groups') {
+        $message_type = "swaylocks_notify_new_comment_no_groups";
+      }
+    break;
+  }
+}
+
+function swaylocks_misc_commons_activity_streams_message_selection_alter(&$message_type, $hook, $node) {
+  //dd($hook);
+  switch ($hook) {
+    case 'node_insert':
+      if ($message_type == 'commons_activity_streams_node_created') {
+        $message_type = "swaylocks_activity_node_created_no_groups";
+      }
+      break;
+    case 'comment_insert':
+      if ($message_type == 'commons_activity_streams_comment_created') {
+        $message_type = "swaylocks_activity_streams_comment_created_forums";
+      }
+    break;
+    case 'like_node':
+      if ($message_type == 'commons_like_user_likes_node') {
+        $message_type = "swaylocks_activity_node_liked";
+      }
+    break;
+    case 'like_comment':
+      if ($message_type == 'commons_like_user_likes_node') {
+        $message_type = "swaylocks_activity_comment_liked";
+      }
+    break;
+  }
+}
+
+function swaylocks_misc_preprocess_advanced_forum_topic_header(&$variables) {
+  $variables['jump_menu'] = theme('forum_jump_menu');
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function swaylocks_misc_theme($existing, $type, $theme, $path) {
+  return array(
+    'forum_jump_menu' => array(
+      'template'=>'forum-jump-menu',
+      'path'=>$path.'/templates',
+      //'path' => drupal_get_path('module', 'example').'/theme'
+    ), 
+  );
+}
+
+/**
+ * Implements hook_commons_entity_integration.
+ */
+function swaylocks_misc_commons_entity_integration() {
+  return array(
+    'node' => array(
+      'forum' => array(
+        'is_group_content' => FALSE,
+       // 'exclude_rate' => TRUE,
+        //'exclude_rate_comments' => TRUE,
+      ),
+    ),
+  );
+}
+
+function swaylocks_misc_wysiwyg_editor_settings_alter(&$settings, $context) {
+  if ($context['profile']->editor == 'ckeditor') {
+    $settings['allowedContent'] = TRUE;
+  }
+}
+
+function swaylocks_misc_form_alter(&$form, &$form_state, $form_id) {
+
+  switch ($form_id) {
+    case 'user_profile_form':
+      // Move the signature fieldset into a pretty vertical tab
+      $form['#group_children']['signature_settings'] = 'group_account_signature';
+      // Move message email notify checkbox into notification settings
+      $form['#group_children']['message_subscribe_email'] = 'group_account_notify_settings';
+      $form['message_subscribe_email']['und']['#title'] = t("Send email notifications by default.");
+      $form['message_subscribe_email']['und']['#description'] = t("If checked, you'll automatically sign up for email notifications when you follow something.");      
+    break;
+    case 'commons_follow_ui_notification_settings_form':
+      global $user;
+      drupal_set_title(t('Following'));
+      $form['explanation']['#markup'] = t('Manage the people, content & topics you follow.');
+      $form['message_subscribe_email']['#description'] = t("If checked, you'll automatically sign up for email notifications when you follow something.");      
+      # this is buggy in commons_follow_ui.module
+      if ($user->uid == $form['uid']['#value']) {
+        $form['message_subscribe_email']['#disabled'] = FALSE;
+      }
+    break;
+    case 'views_exposed_form':
+      // Customize the text on the filter for Activity landing page.
+      if ($form['#id'] == 'views-exposed-form-swaylocks-activity-streams-activity-site-wide--panel-pane-3') {
+        $form['following']['#options'][0] = t("activity I'm not following");
+        $form['following']['#options'][1] = t("activity I'm following");
+      }
+    break;
+  }
+}
+
+function swaylocks_misc_form_user_register_form_alter(&$form, &$form_state) {
+  foreach ($form['#pre_render'] as $key => $value) {
+    if ($value == 'field_group_form_pre_render') {
+      unset($form['#pre_render'][$key]);
+    }
+  }
+}
+
+/**
+ * Implements hook_flag_alter().
+ */
+function swaylocks_misc_flag_alter(&$flag) {
+  // Add forums taxonomy to allow following
+  // different forums. 
+  if ($flag->name == 'commons_follow_term') {
+    $flag->types[] = 'forums';
+  }
+}
+
+
+/**
+ * Implements hook_node_view()
+ */
+function swaylocks_misc_node_view($node, $view_mode, $langcode) {
+
+  // Add reply and quote links to first forum post.
+  if (_forum_node_check_node_type($node)) {
+
+    if ($view_mode == 'full' && node_is_page($node) && user_access('post comments')) {
+
+      $links['forum_node_reply'] = advanced_forum_get_reply_link($node);
+
+      if (is_array($links['forum_node_reply'])) {
+        $links['forum_node_reply']['fragment'] = 'comment-form';
+      }
+
+      if (in_array($node->type, _quote_variable_get('node_types'))
+        && $node->comment == COMMENT_NODE_OPEN
+        && _quote_variable_get('node_link_display')) {
+    
+        $links['quote'] = array(
+          'title' => t('Quote'),
+          'href' => "comment/reply/$node->nid",
+          'attributes' => array('title' => t('Quote this post in your reply.')),
+          'query' => array('quote' => 1),
+          'fragment' => 'comment-form'
+        );
+      }
+
+      $node->content['links']['forum'] = array(
+        '#theme' => 'links',
+        '#links' => $links,
+        '#attributes' => array('class' => array('links', 'inline')),
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_node_view_alter()
+ */
+function swaylocks_misc_node_view_alter(&$build) {
+  $build['links']['rate']['#weight'] = 50;
+
+  // Move forum node reply and quote to front of the line.
+  swaylocks_misc_move_item($build['links'], 'forum', 'bottom');
+}
+
+/**
+ * Implements hook_misc_comment_view_alter()
+ */
+function swaylocks_misc_comment_view_alter(&$comment) {
+  $comment['links']['comment']['#weight'] = 40;
+  $comment['links']['quote']['#weight'] = 49;
+  $comment['links']['rate']['#weight'] = 50;
+  $comment['links']['quote']['#links']['quote']['attributes']['class'] = 'af-button-small';
+  $comment['links']['quote']['#links']['quote']['html'] = TRUE;
+}
+
+/**
+ * Utility function to move/reorder a known key/value pair within an array
+ *
+ * Examples:
+ * move_item($arr, 'move me', 'up'); //move it one up
+ * move_item($arr, 'move me', 'down'); //move it one down
+ * move_item($arr, 'move me', 'top'); //move it to top
+ * move_item($arr, 'move me', 'bottom'); //move it to bottom
+ *
+ * move_item($arr, 'move me', -1); //move it one up
+ * move_item($arr, 'move me', 1); //move it one down
+ * move_item($arr, 'move me', 2); //move it two down
+ *
+ * move_item($arr, 'move me', 'up', 'b'); //move it before ['b']
+ * move_item($arr, 'move me', -1, 'b'); //move it before ['b']
+ * move_item($arr, 'move me', 'down', 'b'); //move it after ['b']
+ * move_item($arr, 'move me', 1, 'b'); //move it after ['b']
+ * move_item($arr, 'move me', 2, 'b'); //move it two positions after ['b']
+ *
+ * Special syntax, to swap two elements:
+ * move_item($arr, 'a', 0, 'd'); //Swap ['a'] with ['d']
+ */
+function swaylocks_misc_move_item(&$ref_arr, $key1, $move, $key2 = null) {
+  $arr = $ref_arr;
+  if($key2 == null) $key2 = $key1;
+  if(!isset($arr[$key1]) || !isset($arr[$key2])) return false;
+
+  $i = 0; foreach($arr as &$val) $val = array('sort' => (++$i * 10), 'val' => $val);
+
+  if(is_numeric($move))
+  {
+    if($move == 0 && $key1 == $key2) return true;
+    elseif($move == 0) { $tmp = $arr[$key1]['sort']; $arr[$key1]['sort'] = $arr[$key2]['sort']; $arr[$key2]['sort'] = $tmp; }
+    else $arr[$key1]['sort'] = $arr[$key2]['sort'] + ($move * 10 + ($key1 == $key2 ? ($move < 0 ? -5 : 5) : 0));
+  }
+  else
+  {
+    switch($move)
+    {
+      case 'up':     $arr[$key1]['sort'] = $arr[$key2]['sort'] - ($key1 == $key2 ? 15 : 5); break;
+      case 'down':   $arr[$key1]['sort'] = $arr[$key2]['sort'] + ($key1 == $key2 ? 15 : 5); break;
+      case 'top':    $arr[$key1]['sort'] = 5; break;
+      case 'bottom': $arr[$key1]['sort'] = $i * 10 + 5; break;
+      default: return false;
+    }
+  }
+  uasort($arr, function($a, $b) { return $a['sort'] > $b['sort']; });
+  foreach($arr as &$val) $val = $val['val'];
+  $ref_arr = $arr;
+  return true;
+}
+
+/** RATING & VOTING **/
+/**
+ * Implements hook_entity_property_info().
+ * Exposes user properties to rules data selector.
+ */
+function swaylocks_misc_entity_property_info() {
+  $info = array();
+  if (module_exists('userpoints')) {
+    $info['user']['properties']['points'] = array(
+      'label' => t('!Points', userpoints_translation()),
+      'description' => t('The amount of !points this user has. If there are multiple categories, only the default category is taken into account.', userpoints_translation()),
+      'getter callback' => 'swaylocks_misc_get_user_property',
+      'type' => 'integer',
+      'computed' => TRUE,
+    );
+  }
+  return $info;
+}
+
+/**
+ * Callback for getting user properties defined by MYMODULE_entity_property_info().
+ */
+function swaylocks_misc_get_user_property($account, $options, $name, $entity_type) {
+  switch ($name) {
+    case 'points':
+      return module_invoke('userpoints', 'get_current_points', $account->uid);
+  }
+}
+
+/**
+ * Alter the rate widget before display.
+ *
+ * @param object $widget Widget object
+ * @param array $context
+ *   array(
+ *     'content_type' => $content_type,
+ *     'content_id' => $content_id,
+ *   );
+ */
+function swaylocks_misc_rate_widget_alter(&$widget, $context) {  
+  // move all like widgets into the links area
+  $widget->title = '';
+  /*
+  $widget->node_display = 3;
+  $widget->node_display = 3;
+  $widget->comment_display = 3;
+  $widget->node_display_mode = 2;
+  $widget->comment_display_mode = 2;
+  $widget->template = 'thumbs_up_down';
+  $widget->theme = 'rate_template_thumbs_up_down';
+//  $widget->css = 'profiles/commons/modules/commons/commons_like/commons-like.css';
+*/
+}
+
+/**
+ * Implements hook_rate_vote_alter
+ * Alter the vote before it is saved.
+ * 
+ * @param array $vote
+ *   array(
+ *     'entity_type' => $content_type,
+ *     'entity_id' => $content_id,
+ *     'value_type' => $widget->value_type,
+ *     'value' => $value,
+ *     'tag' => $widget->tag,
+ *   );
+ * @param array $context
+ *   array(
+ *     'redirect' => &$redirect, // Path. Alter to redirect the user.
+ *     'save' => &$save, // Boolean indicating whether the vote must be saved.
+ *     'widget' => $widget, // Widget object, unalterable.
+ *   );
+ */
+function swaylocks_misc_rate_vote_alter($vote, $context) {
+  global $user;
+  // Disable voting if auth user has voted more than 20x per day.
+  // Todo: find a way to cache the votes per day per user
+  if (!(user_is_anonymous())) {
+    $criteria = array( 'uid' => $user->uid, 'timestamp' => strtotime('-1 day', time()) );
+    $data = votingapi_select_votes($criteria);
+    if (count($data) >= variable_get('user_max_votes_per_day', 20)) {
+      $context['save'] = FALSE;
+    }
+  }  
+}
+   
+
+/**
+ * Implements hook_votingapi_insert().
+ *   Create a message when a user likes a node.
+ *
+ * see http://webwash.net/tutorials/message-module-api
+ */
+function swaylocks_misc_votingapi_insert($votes) {
+  global $user;
+  foreach ($votes as $vote) {
+    if ($vote['tag'] == 'commons_like') {      
+      
+      if ($vote['entity_type'] == 'node') {
+        $message_type = "swaylocks_activity_node_liked";
+        $content = node_load($vote['entity_id']);
+        $content_id = $content->nid;
+      }
+      
+      if ($vote['entity_type'] == 'comment') {
+        $message_type = "swaylocks_activity_comment_liked";
+        $content = comment_load($vote['entity_id']);
+        $content_id = $content->cid;
+      }
+      
+      // Add/remove userpoints for content owner
+      $params = array (
+        'uid' => $content->uid,
+        'points' => $vote['value'],
+        'entity_id' => $content_id,
+        'approver_uid' => $user->uid,
+      );
+      
+      $query = "SELECT txn_id FROM {userpoints_txn}
+                WHERE entity_id = :entity_id 
+                AND uid = :uid AND approver_uid = :approver_uid";
+      $txn_id = db_query($query, 
+                  array(
+                    ':entity_id' => $params['entity_id'], 
+                    ':uid' => $params['uid'], 
+                    ':approver_uid' => $params['approver_uid']))->fetchField();
+      if ($txn_id) {
+        $params['txn_id'] = $txn_id;
+      }
+      
+      userpoints_userpointsapi($params);
+      
+      // Generate the activity stream message for this action
+      $vote_type = ($vote['value'] == 1 ? 'upvoted' : 'downvoted'); 
+      $values = array(
+        'uid' => $vote['uid'],
+        'timestamp' => $vote['timestamp'],
+        'arguments' => array(
+          '!action' => $vote_type,        
+        ),
+      );
+      //$message_type = 'commons_like_user_likes_node';
+      //drupal_alter('commons_activity_streams_message_selection', $message_type, $hook, $node);
+      $message = message_create($message_type, $values);
+      $wrapper = entity_metadata_wrapper('message', $message);
+      if ($vote['entity_type'] == 'comment') {
+        $wrapper->field_target_comments[] = $content;
+        $node = node_load($content->nid);
+        $wrapper->field_target_nodes[] = $node;
+      }
+      else {
+        $wrapper->field_target_nodes[] = $content;
+      }
+      $wrapper->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_votingapi_delete().
+ *
+ * Set userpoints when a up/down vote is cast.
+ * This action effectively cancels a persons vote and
+ * sets the point count of the vote recipient to unchanged.
+ * This is fired when a vote is "unset". The userpoint value
+ * is actually changed using votingapi_insert (above) 
+ */
+function swaylocks_misc_votingapi_delete($votes) {
+  global $user;
+  foreach ($votes as $vote) {
+    if (isset($vote['tag']) && $vote['tag'] == 'commons_like') {
+      // delete activity stream message
+      if (module_exists('commons_activity_streams') && $mids = swaylocks_misc_existing_like_messages($vote['uid'], $vote['entity_type'], array($vote['entity_id']))) {
+        message_delete_multiple($mids);
+      }
+      // Add/remove userpoints for content owner
+      if ($vote['entity_type'] == 'node') {
+        $message_type = "swaylocks_activity_node_liked";
+        $content = node_load($vote['entity_id']);
+        $content_id = $content->nid;
+      }
+      
+      if ($vote['entity_type'] == 'comment') {
+        $message_type = "swaylocks_activity_comment_liked";
+        $content = comment_load($vote['entity_id']);
+        $content_id = $content->cid;
+      }
+      
+      $params = array (
+        'uid' => $content->uid,
+        'points' => 0, //$vote['value'] == 1 ? -1 : 1,
+        'entity_id' => $content_id,
+        'approver_uid' => $user->uid,
+      );
+      
+      $query = "SELECT txn_id FROM {userpoints_txn}
+                WHERE entity_id = :entity_id 
+                AND uid = :uid AND approver_uid = :approver_uid";
+      $txn_id = db_query($query, 
+                  array(
+                    ':entity_id' => $params['entity_id'], 
+                    ':uid' => $params['uid'], 
+                    ':approver_uid' => $params['approver_uid']))->fetchField();
+      if ($txn_id) {
+        $params['txn_id'] = $txn_id;
+      }
+
+      userpoints_userpointsapi($params);
+    }
+  }
+}
+
+/**
+ * Indicate whether there is an existing message about a given user
+ * liking a specific node or comment.
+ */
+function swaylocks_misc_existing_like_messages($acting_uid, $entity_type, $target_nids) {
+  if ($entity_type == 'node') {
+    $type = 'swaylocks_activity_node_liked';
+    $target = 'field_target_nodes';
+  }
+  if ($entity_type == 'comment') {
+    $type = 'swaylocks_activity_comment_liked';  
+    $target = 'field_target_comments';      
+  }
+  
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'message', '=')
+   ->propertyCondition('uid', $acting_uid)
+   ->propertyCondition('type', $type, '=')
+   ->fieldCondition($target, 'target_id', $target_nids, 'IN')
+   ->execute();
+
+  if (!empty($query->ordered_results)) {
+    $mids = array();
+    foreach($query->ordered_results as $result) {
+      $mids[] = $result->entity_id;
+    }
+    return $mids;
+  }
+  return FALSE;
+}
+
+/**
+ * Preprocess function for the number_up_down template.
+ */
+function swaylocks_misc_preprocess_rate_template_number_up_down(&$variables) {
+  global $user;
+  drupal_add_js(drupal_get_path('module', 'swaylocks_misc') .'/swaylocks_misc.js');
+  
+  extract($variables);
+  //dpm($links);
+  //dpm($results);
+  //dpm($variables);
+  $variables['disabled_msg'] = '';
+  $key = ($content_type == 'node' ? 'nid' : 'cid'); 
+  $query = "SELECT uid FROM {$content_type} WHERE $key = :content_id";
+  $author_uid = db_query($query, array(':content_id' => $content_id))->fetchField();
+  if (!(user_access('vote up down'))) {
+    $variables['disabled_msg'] = t("You must have !userpoints points to vote.", array('!userpoints' => variable_get('trusted_userpoints')));
+    $links[0]['href'] = $links[1]['href'] = NULL;
+  }
+  else if ($variables['user']->uid == $author_uid) {
+    // content author and user are the same
+    $variables['disabled_msg'] = t("You can't vote on your own post.");
+    $links[0]['href'] = $links[1]['href'] = NULL;
+  }
+  else {
+    // check vote count
+    $criteria = array( 'uid' => $user->uid, 'timestamp' => strtotime('-1 day', time()) );
+    $data = votingapi_select_votes($criteria);
+    if (count($data) >= variable_get('user_max_votes_per_day', 20)) {
+      
+      $variables['disabled_msg'] = t("Maximum of 10 votes per day reached.");
+      // disable voting, but allow to unset original vote
+      if (isset($results['user_vote'])) {
+        switch ($results['user_vote']) {
+          case $links[0]['value']:
+            $links[1]['href'] = NULL;
+            break;
+          case $links[1]['value']:
+            $links[0]['href'] = NULL;
+            break;
+        }
+      }
+      else {
+        // disable both up & down buttons
+        $links[0]['href'] = $links[1]['href'] = NULL;
+      }
+    }
+  }
+  
+  if ($content_type == 'node') {
+    $links[0]['title'] = t('This question/post shows research effort; it is useful and clear');
+    $links[1]['title'] = t('This question/post does not show any research effort; it is unclear or not useful');
+  }
+  
+  if ($content_type == 'comment') {
+    $links[0]['title'] = t('This comment/answer is useful');
+    $links[1]['title'] = t('This comment/answer is not useful');
+  }
+    
+  $up_classes = 'rate-number-up-down-btn-up';
+  $down_classes = 'rate-number-up-down-btn-down';
+  if (isset($results['user_vote'])) {
+    switch ($results['user_vote']) {
+      case $links[0]['value']:
+        $up_classes .= ' rate-voted';
+        $links[0]['title'] .= ' ' . t('(Click again to undo)');
+        break;
+      case $links[1]['value']:
+        $down_classes .= ' rate-voted';
+        $links[1]['title'] .= ' ' . t('(Click again to undo)');
+        break;
+    }
+  }
+
+  $variables['up_button'] = theme('rate_button', array('text' => $links[0], 'href' => $links[0]['href'], 'class' => $up_classes ));
+  $variables['down_button'] = theme('rate_button', array('text' => $links[1], 'href' => $links[1]['href'], 'class' => $down_classes ));
+}
+
+
+function _wrapper_debug($w) {
+  $values = array();
+  foreach ($w->getPropertyInfo() as $key => $val) {
+    $values[$key] = $w->$key->value();
+  }
+  return $values;
+}

@@ -1,0 +1,374 @@
+<?php
+/**
+ * Add a created and a changed column to profiles.
+ */
+function swaylocks_misc_update_7000() {
+  
+  $features = array(
+    'commons_follow',  
+    'commons_follow_term', 
+    'commons_notify', 
+    'commons_profile_base', 
+    'commons_profile_social', 
+    'commons_misc', 
+    'commons_topics',
+    'commons_events', 
+    'commons_polls', 
+    'commons_posts',
+  );
+
+  foreach ($features as $feature) {
+    full_feature_revert($feature);
+  }
+  
+}
+
+
+function full_feature_revert($feature_module) {
+  $info = drupal_parse_info_file(drupal_get_path('module', $feature_module) . '/' . $feature_module . '.info');
+  $revert = array(
+    $feature_module => array_keys($info['features']),
+  );
+
+  features_revert($revert);
+}
+
+function swaylocks_misc_update_7002(&$sandbox) {
+  // If this is the first pass through this update function then set some variables.
+  if (!isset($sandbox['total'])) {
+    $sandbox['total'] = db_query("SELECT count(mid) 
+                                  FROM {message} WHERE
+                                  type = 'swaylocks_activity_streams_comment_created_forums'")->fetchField();
+    $sandbox['current'] = 0;
+  }
+
+  // How many nodes should be processed per pass. The higher this number is, the faster your update will
+  // complete, but the more likely your server will run out of memory or timeout.
+  $nodes_per_pass = 20;
+   
+  // Get the nodes to process during this pass.
+  $query = "SELECT m.mid, tc.field_target_comments_target_id 
+                FROM message m
+                INNER JOIN field_data_field_target_comments tc on m.mid = tc.entity_id
+                WHERE type = 'swaylocks_activity_streams_comment_created_forums'";
+
+  $result = db_query_range($query, $sandbox['current'], $nodes_per_pass);
+  while ($row = $result->fetchAssoc()) {
+    
+    //dsm($row['mid'], 'entity_id');
+    //dsm($row['field_target_comments_target_id'], 'field_target_comments_target_id');
+
+    // Load the node, edit its title, and save the node.
+
+    $comment = comment_load($row['field_target_comments_target_id']);
+    $node = node_load($comment->nid);
+    
+    if ($comment && $node) {
+      // Allow other modules to change the message type used for this event.
+      $hook = 'comment_insert';
+      $message_type = 'commons_activity_streams_comment_created';
+      drupal_alter('commons_activity_streams_message_selection', $message_type, $hook, $node);
+      $message = message_load($row['mid']);
+      $wrapper = entity_metadata_wrapper('message', $message);
+
+
+      $wrapper->field_target_nodes[0] = $node;
+      $wrapper->field_target_comments[0] = $comment;
+
+      //$wrapper->revision->set(1);
+      //dd(_wrapper_debug($wrapper));
+      $wrapper->save();
+      
+      drupal_set_message(t('Processed message @nid', array('@nid' => $row['mid'])));
+      
+    }
+    else {
+      drupal_set_message('Deleting message id ' . $row['mid']);
+    }
+    
+    // Increment "current" by 1.
+    $sandbox['current']++;
+    // Set the value for finished. If current == total then finished will be 1, signifying we are done.
+    $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+    
+  }
+  
+  if ($sandbox['finished'] === 1) {
+    drupal_set_message(t('We processed @nodes nodes. DONE!!!', array('@nodes' => $sandbox['total'])));
+  }
+}
+
+function swaylocks_misc_update_7003(&$sandbox) {
+  // If this is the first pass through this update function then set some variables.
+  if (!isset($sandbox['total'])) {
+    $sandbox['total'] = db_query("SELECT count(mid) 
+                                  FROM {message} WHERE
+                                  type = 'swaylocks_activity_comment_liked'")->fetchField();
+    
+    $sandbox['finished'] = 0;
+    $sandbox['current'] = 0;
+  }
+
+  // How many nodes should be processed per pass. The higher this number is, the faster your update will
+  // complete, but the more likely your server will run out of memory or timeout.
+  $nodes_per_pass = 20;
+   
+  // Get the nodes to process during this pass.
+  $query = "SELECT m.mid, tc.field_target_comments_target_id 
+                FROM message m
+                INNER JOIN field_data_field_target_comments tc on m.mid = tc.entity_id
+                WHERE type = 'swaylocks_activity_comment_liked'";
+
+  $result = db_query_range($query, $sandbox['current'], $nodes_per_pass);
+  while ($row = $result->fetchAssoc()) {
+    
+    // Load the node, edit its title, and save the node.
+    $comment = comment_load($row['field_target_comments_target_id']);
+    $node = node_load($comment->nid);
+    
+    if ($comment && $node) {
+      // Allow other modules to change the message type used for this event.
+      $hook = 'like_comment';
+      $message_type = 'commons_like_user_likes_node';
+      drupal_alter('commons_activity_streams_message_selection', $message_type, $hook, $node);
+      $message = message_load($row['mid']);
+      $wrapper = entity_metadata_wrapper('message', $message);
+      $wrapper->field_target_nodes[0] = $node;
+      $wrapper->field_target_comments[0] = $comment;
+      $wrapper->save();
+      
+      drupal_set_message(t('Processed message @nid', array('@nid' => $row['mid'])));
+
+    }
+    else {
+      drupal_set_message('Deleting message id ' . $row['mid']);
+
+    }
+    // Increment "current" by 1.
+    $sandbox['current']++;
+    // Set the value for finished. If current == total then finished will be 1, signifying we are done.
+    $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+  }
+  
+  
+  if ($sandbox['finished'] === 1) {
+    drupal_set_message(t('We processed @nodes nodes. DONE!!!', array('@nodes' => $sandbox['total'])));
+  }
+}
+
+function swaylocks_misc_update_7004(&$sandbox) {
+  // If this is the first pass through this update function then set some variables.
+  if (!isset($sandbox['total'])) {
+    $sandbox['total'] = db_query("SELECT count(mid) 
+                                  FROM {message} WHERE
+                                  type = 'swaylocks_activity_node_liked'")->fetchField();
+    
+    $sandbox['finished'] = 0;
+    $sandbox['current'] = 0;
+  }
+
+  // How many nodes should be processed per pass. The higher this number is, the faster your update will
+  // complete, but the more likely your server will run out of memory or timeout.
+  $nodes_per_pass = 20;
+   
+  // Get the nodes to process during this pass.
+  $query = "SELECT m.mid, tc.field_target_nodes_target_id 
+                FROM message m
+                INNER JOIN field_data_field_target_nodes tc on m.mid = tc.entity_id
+                WHERE type = 'swaylocks_activity_node_liked'";
+
+  $result = db_query_range($query, $sandbox['current'], $nodes_per_pass);
+  while ($row = $result->fetchAssoc()) {
+    
+    // Load the node, edit its title, and save the node.
+    $node = node_load($row['field_target_nodes_target_id']);
+    
+    if ($node) {
+      // Allow other modules to change the message type used for this event.
+      $hook = 'like_node';
+      $message_type = 'commons_like_user_likes_node';
+      drupal_alter('commons_activity_streams_message_selection', $message_type, $hook, $node);
+      $message = message_load($row['mid']);
+      $wrapper = entity_metadata_wrapper('message', $message);
+      $wrapper->field_target_nodes[0] = $node;
+      $wrapper->save();
+      
+      drupal_set_message(t('Processed message @nid', array('@nid' => $row['mid'])));
+
+    }
+    else {
+      drupal_set_message('Deleting message id ' . $row['mid']);
+
+    }
+    // Increment "current" by 1.
+    $sandbox['current']++;
+    // Set the value for finished. If current == total then finished will be 1, signifying we are done.
+    $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+  }
+  
+  
+  if ($sandbox['finished'] === 1) {
+    drupal_set_message(t('We processed @nodes nodes. DONE!!!', array('@nodes' => $sandbox['total'])));
+  }
+
+}
+
+
+function swaylocks_misc_update_7005(&$sandbox) {
+    
+  $themes = array(
+    'swaylocks_naked',
+    'swaylocks_blue_lagoon',
+    'plus',
+  );
+
+  db_delete('system')
+    ->condition('name', $themes, 'IN')
+    ->condition('type', 'theme')
+    ->execute();
+
+  $modules = array(
+    'commons_origins',
+  );
+  db_delete('system')
+    ->condition('name', $modules, 'IN')
+    ->condition('type', 'module')
+    ->execute();
+
+
+  $module_list = array('migrate','advancedqueue');
+  module_enable($module_list);
+
+  // Disable the Toolbar module.
+  foreach ($module_list as $module) {
+    if (module_exists($module)) {
+      module_disable(array($module));
+      drupal_uninstall_modules(array($module));
+    }
+  }
+}
+
+/**
+ * Remove Backup & Migrate.
+ */
+function swaylocks_misc_update_7006(&$sandbox) {
+
+  $module_list = array('backup_migrate');
+  module_enable($module_list);
+
+  // Disable the Toolbar module.
+  foreach ($module_list as $module) {
+    if (module_exists($module)) {
+      module_disable(array($module));
+      drupal_uninstall_modules(array($module));
+    }
+  }
+}
+
+/**
+ * Disable & uninstall unnecessary modules.
+ */
+function swaylocks_misc_update_7007(&$sandbox) {
+
+  $module_list = array('context_ui, rules_admin, views_ui');
+
+  // Disable the Toolbar module.
+  foreach ($module_list as $module) {
+    if (module_exists($module)) {
+      module_disable(array($module));
+      drupal_uninstall_modules(array($module));
+    }
+  }
+
+  $module_list = array('ckeditor, devel, memcache_admin, navbar, panelizer, taxonomy_csv');
+  foreach ($module_list as $module) {
+    if (module_exists($module)) {
+      drupal_uninstall_modules(array($module));
+    }
+  }
+
+  db_delete('system')
+    ->condition('name', $module_list, 'IN')
+    ->condition('type', 'module')
+    ->execute();
+
+}
+
+/**
+ * Enable dfp (doublclick for publishers)
+ */
+function swaylocks_misc_update_7008(&$sandbox) {
+    module_enable(array(
+    'dfp',
+    'entity_modified',
+  ));
+}
+
+/**
+ * Disable and uninstall spamicide.
+ */
+function swaylocks_misc_update_7009() {
+  if (module_exists('spamicide')) {
+    module_disable(array('spamicide'));
+    drupal_uninstall_modules(array('spamicide'));
+  }
+
+  // Delete pantheon system.
+  $modules = array(
+    'pantheon_api',
+  );
+  db_delete('system')
+    ->condition('name', $modules, 'IN')
+    ->condition('type', 'module')
+    ->execute();
+}
+
+/**
+ * Disable and uninstall blockexport.
+ */
+function swaylocks_misc_update_7010() {
+  if (module_exists('blockexport')) {
+    module_disable(array('blockexport'));
+    drupal_uninstall_modules(array('blockexport'));
+  }
+}
+
+/**
+ * Disable and uninstall google_cse.
+ */
+function swaylocks_misc_update_7011() {
+  if (module_exists('google_cse')) {
+    module_disable(array('google_cse'));
+    drupal_uninstall_modules(array('google_cse'));
+  }
+}
+
+/**
+ * Enable Apachesolr.
+ */
+function swaylocks_misc_update_7012() {
+  module_enable(array(
+    'apachesolr',
+    'apachesolr_search',
+  ));
+
+  // Re-enable input formats so solr can index.
+  db_update('filter_format')
+    ->fields([
+      'status' => 1,
+    ])
+    ->condition(db_or()
+      ->condition('format', 'advanced_editor')
+      ->condition('format', 'swaylopedia_advanced')
+    )
+    ->execute();
+}
+
+/**
+ * Enable role_delegation.
+ */
+function swaylocks_misc_update_7013() {
+  module_enable(array(
+    'role_delegation',
+  ));
+}

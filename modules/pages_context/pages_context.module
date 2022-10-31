@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Pages Context feature.
+ */
+
+include_once 'pages_context.features.inc';

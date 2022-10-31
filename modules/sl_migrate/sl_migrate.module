@@ -1,0 +1,60 @@
+<?php
+
+function sl_migrate_migrate_api() {
+  $api = array(
+    'api' => 2,
+    'migrations' => array(
+      'SwaylocksUser' => array('class_name' => 'SwaylocksUserMigration'),   
+      'SwaylocksUserImage' => array('class_name' => 'SwaylocksUserImageMigration'),            
+      'SwaylocksProfile' => array('class_name' => 'SwaylocksProfileMigration'),
+    		
+      'SwaylocksForum' => array('class_name' => 'SwaylocksForumMigration'),
+    		
+      'SwaylocksSwaylopediaImage' => array('class_name' => 'SwaylocksSwaylopediaImageMigration'),
+      'SwaylocksSwaylopediaBook' => array('class_name' => 'SwaylocksSwaylopediaBookMigration'),     			
+      'SwaylocksSwaylopediaGlossary' => array('class_name' => 'SwaylocksSwaylopediaGlossaryMigration'),	
+			
+      'SwaylocksSurfshopSurfcraft' => array('class_name' => 'SwaylocksSurfshopSurfcraftMigration'),
+      //'SwaylocksSurfshopNonSurfcraft' => array('class_name' => 'SwaylocksSurfshopNonSurfcraftMigration'),    		 
+      'SwaylocksSwaylopediaBook' => array('class_name' => 'SwaylocksSwaylopediaBookMigration'),
+    		    		
+      'SwaylocksComment' => array('class_name' => 'SwaylocksCommentMigration'),    		
+
+      'SwaylocksCommentImage' => array('class_name' => 'SwaylocksCommentImageMigration'),   
+
+
+      'SwaylocksPrivateMessage' => array('class_name' => 'SwaylocksPrivateMessageMigration'),  		
+      
+	  'SwaylocksFAQ' => array('class_name' => 'SwaylocksFAQMigration'),  		
+    ),
+  );
+  return $api;
+}
+
+
+function sl_migrate_menu() {
+  $items = array();
+
+  $items['admin/content/migration-database-configuration'] = array(
+    'title' => 'Migration Database Config',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('sl_migrate_settings'),
+    'access arguments' => array(MIGRATE_ACCESS_BASIC),
+  );
+  
+  return $items;
+}
+
+function sl_migrate_settings($form, &$form_state) {
+
+
+  $form['sl_migrate_source_db_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Source DB Name'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('sl_migrate_source_db_name', ''),
+  );
+
+  
+  return system_settings_form($form);
+}
