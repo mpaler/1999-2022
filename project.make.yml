@@ -85,7 +85,7 @@ projects:
       # https://www.drupal.org/node/2456519#comment-9742435
       - "https://drupal.org/files/issues/ckeditor-ckeditor-feature-2456519-2.patch"
   context:
-    version: "3.10"
+    version: "3.11"
   ctools:
     version: "1.13"
   custom_formatters:
@@ -129,7 +129,7 @@ projects:
   facetapi:
     version: "1.5"
   faq:
-    version: "1.2"
+    version: "1.3"
   features:
     version: "2.10"
   features_extra:
@@ -173,7 +173,7 @@ projects:
       # https://drupal.org/node/2779591#comment-12053586
       - "https://www.drupal.org/files/issues/libraries-version-callback-reference-parameter-fix-2779591-11.patch"
   link:
-    version: "1.7"
+    version: "1.11"
   location:
     version: "3.x-dev"
   #location_cck:
@@ -259,7 +259,7 @@ projects:
   r4032login:
     version: "1.8"
   rate:
-    version: "1.7"
+    version: "1.8"
     patch:
       # Add widget to node/comment $links.
       # https://drupal.org/node/947516#comment-6979780
@@ -278,11 +278,11 @@ projects:
   registry_rebuild:
     version: "2.5"
   role_delegation:
-    version: "1.1"
+    version: "1.3"
   rules:
     version: "2.12"
   s3fs:
-    version: "2.13"
+    version: "3.0-alpha3"
   s3fs_file_proxy:
     version: "1.1"
   s3fs_migrate:
