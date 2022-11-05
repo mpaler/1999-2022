@@ -31,15 +31,6 @@ pre {
   overflow: hidden;
 }
 
-#logo {
-  height: 26px;
-  left: -15px;
-  position: absolute;
-  top: 3px;
-  width: 305px;
-  z-index: 10;
-}
-
 .panel {
   background-color: transparent;
   border-radius: 0;
@@ -1136,7 +1127,7 @@ div.form-item div.password-suggestions {
 /********/
 .front {
   #main {
-    padding-top: 15px;
+    padding: 15px;
   }
 }
 

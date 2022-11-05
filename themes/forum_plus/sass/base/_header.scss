@@ -145,8 +145,18 @@
 
 .header {
   background: $white;
-  min-height: 80px;
+  min-height: 165px;
   position: relative;
+
+  #logo {
+    height: 26px;
+    left: -5px;
+    position: absolute;
+    top: 0px;
+    width: 305px;
+    z-index: 10;
+  }
+
   .container {
     position: relative;
   }
@@ -157,9 +167,19 @@
     content: "";
     height: 1px;
     position: absolute;
-    left: 0;
-    bottom: 0;
+    left: 0px;
+    bottom: 0px;
     width: 100%;
+  }
+
+  .google_search {
+    position: absolute;
+    top: 80px;
+    left: 0px;
+
+    .gsc-search-box tbody {
+      border: none;
+    }
   }
 }
 

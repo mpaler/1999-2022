@@ -136,6 +136,8 @@
         <span class="icon-bar"></span>
       </a>
     </div>
+
+    <?php print render($page['help']); ?>
   </header>
 
   <?php if ($title && !$is_front): ?>
