@@ -183,6 +183,54 @@
   }
 }
 
+.page-homepage {
+  .header {
+    background: none;
+    min-height: 65px;
+    position: relative;
+    border: none;
+
+    &:after {
+      background: none;
+    }
+
+    #logo {
+      position: relative;
+    }
+  }
+
+  .google_search {
+    position: relative;
+    top: 0px;
+    left: 0px;
+
+    .gsc-control-cse {
+      background: none;
+      border: none;
+    }
+
+    .gsc-search-button {
+      margin-left: 2px;
+      height: 5rem !important;
+      border-radius: 5px !important;
+    }
+
+    .gsc-input-box {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.4);
+      height: 5rem;
+      border-radius: 5px;
+
+      input.gsc-input {
+        background: none !important;
+        height: 4rem !important;
+        font-size: 3rem !important;
+        margin: 0 !important;
+      }
+    }
+  }
+}
+
 /* search advance */
 
 .page-search .region-content {
