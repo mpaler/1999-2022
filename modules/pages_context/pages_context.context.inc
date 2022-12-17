@@ -43,12 +43,6 @@ function pages_context_context_default_contexts() {
           'region' => 'main_menu',
           'weight' => '-10',
         ),
-        'block-1' => array(
-          'module' => 'block',
-          'delta' => '1',
-          'region' => 'footer',
-          'weight' => '-9',
-        ),
       ),
     ),
   );
