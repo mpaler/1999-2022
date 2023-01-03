@@ -61,6 +61,48 @@ function swaylocks_base_views_query_alter(&$view, &$query) {
   }
 }
 
+function swaylocks_base_block_info() {
+  $blocks['swaylocks_base_footer'] = array(
+    'info' => t('Swaylocks Base Footer 2023'), 
+    'cache' => DRUPAL_NO_CACHE, //there are a number of caching options for this
+  );
+
+  return $blocks;
+}
+
+function swaylocks_base_block_view($delta = ''){
+  $block = array();
+  switch($delta){
+    case 'swaylocks_base_footer':
+      $block['content'] = swaylocks_base_get_block_view();
+      break;
+  }
+  return $block;
+}
+
+function swaylocks_base_get_block_view(){
+    $variables = array();
+    return theme('footer', $variables);
+}
+
+//implementation of hook_theme
+function swaylocks_base_theme() {
+  // Here you are registering your template for the block output above.
+  $module_path = drupal_get_path('module', 'swaylocks_base');
+
+  // Drupal will now look up your modules /theme folder first to grab the
+  // template.
+  $base = [
+    'path' => "$module_path/theme",
+  ];
+  return array(
+    'footer' => $base + array(
+      'variables' => array('results' => null),
+      'template' => 'footer',
+    ),
+  );
+}
+
 // To support decommissioning of drupal commons profile.
 
 /**

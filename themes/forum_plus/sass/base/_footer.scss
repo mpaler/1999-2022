@@ -1,149 +1,141 @@
 #panel-footer {
-    background-color: $dark;
-    color: $dark-grey-2;
-    padding: 50px 0 40px;
-    margin-bottom: 0;
-    a {
-        color: $blue;
+  background-color: $dark;
+  color: $dark-grey-2;
+  padding: 50px 0 40px;
+  margin-bottom: 0;
+  a {
+    color: $blue;
+    &:hover,
+    &:focus {
+      color: #fff;
+    }
+  }
+  h2 {
+    @include font-style;
+    color: $white;
+    margin-bottom: 50px;
+  }
+  ul.menu {
+    li {
+      padding-bottom: 3px;
+      a {
+        color: $dark-grey-2;
+        display: block;
+        position: relative;
+        padding-left: 10px;
+        font: {
+          family: $font-armata;
+          size: $fs-12;
+        }
+        &:before {
+          @include fontawesome;
+          content: "\f0da";
+          position: absolute;
+          left: 0;
+          top: 0;
+        }
         &:hover,
         &:focus {
-            color: #fff;
+          color: $blue;
         }
+      }
     }
-    h2 {
-        @include font-style;
-        color: $white;
-        margin-bottom: 50px;
+  }
+  .views-field-title {
+    font-family: $font-body;
+    font-size: $fs-16;
+    line-height: 1;
+    a {
+      color: #fff;
+      &:hover,
+      &:focus {
+        color: $blue;
+      }
     }
-    ul.menu {
-        li {
-            padding-bottom: 3px;
-            a {
-                color: $dark-grey-2;
-                display: block;
-                position: relative;
-                padding-left: 10px;
-                font: {
-                    family: $font-armata;
-                    size: $fs-12;
-                };
-                &:before {
-                    @include fontawesome;
-                    content: "\f0da";
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                }
-                &:hover,
-                &:focus {
-                    color: $blue;
-                }
-            }
+  }
+  .views-field-created,
+  .views-field-name {
+    color: #666;
+    line-height: 1.2;
+    .username {
+      color: $blue;
+      &:hover,
+      &:focus {
+        color: #fff;
+      }
+    }
+  }
+  .forum-panel-footer-view {
+    .views-row {
+      margin-bottom: 17px;
+    }
+  }
+  .social-list {
+    @include social-list;
+    margin-top: 0;
+    float: right;
+    li {
+      margin-left: 15px;
+      margin-right: 0;
+      a:hover,
+      a:focus {
+        color: $blue;
+        &:before {
+          color: $blue;
         }
+      }
+      a:before {
+        color: $dark-grey-2;
+        font-size: 15px;
+      }
     }
-    .views-field-title {
-        font-family: $font-body;
-        font-size: $fs-16;
-        line-height: 1;
-        a {
-            color: #fff;
-            &:hover,
-            &:focus {
-                color: $blue;
-            }
-        }
-    }
-    .views-field-created,
-    .views-field-name {
-        color: #666;
-        line-height: 1.2;
-        .username {
-            color: $blue;
-            &:hover, &:focus {
-                color: #fff;
-            }
-        }
-    }
-    .forum-panel-footer-view {
-        .views-row {
-            margin-bottom: 17px;
-        }
-    }
-    .social-list {
-        @include social-list;
-        margin-top: 0;
-        float: right;
-        li {
-            margin-left: 15px;
-            margin-right: 0;
-            a:hover,
-            a:focus {
-                color: $blue;
-                &:before {
-                    color: $blue;
-                }
-            }
-            a:before {
-                color: $dark-grey-2;
-                font-size: 15px;
-            }
-        }
-    }
-    .last-block {
-        text-align: right;
-    }
+  }
+  .last-block {
+    text-align: right;
+  }
 }
 
 /* Footer */
 
-#footer {
-    font-family: $font-secondary;
-    background: #444;
-    color: $white;
-    padding: 20px 0;
-    line-height: 1;
-    .region-footer{
-        @include clearfix;
+footer {
+  background-color: $white;
+  border-top: 1px solid $dark-grey-2;
+  font-family: $font-secondary;
+  padding: 20px 0;
+  .region-footer {
+    @include clearfix;
+  }
+  .block {
+    p {
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
-    .block {
-        float: left;
-        width: 50%;
-        p{
-            &:last-child{
-                margin-bottom: 0;
-            }
-        }
-    }
+  }
 
-    ul.menu {
-        text-align: right;
-        margin-top: 15px;
-        li {
-            display: inline-block;
-            margin-right: 20px;
-            a {
-                color: $white;
-                &:hover, &:focus, &.active {
-                    color: $blue;
-                    text-decoration: none;
-                }
-            }
+  ul.menu {
+    text-align: right;
+    margin-top: 15px;
+    li {
+      display: inline-block;
+      margin-right: 20px;
+      a {
+        color: $white;
+        &:hover,
+        &:focus,
+        &.active {
+          color: $blue;
+          text-decoration: none;
         }
+      }
     }
-    a:hover,
-    a:focus {
-        color: $blue;
-        text-decoration: underline;
-    }
-    .copyright {
-        margin: 0;
-        text-align: right;
-        a {
-            &:hover,
-            &:focus {
-                text-decoration: none;
-                color: $white;
-            }
-        }
-    }
+  }
+  a:hover,
+  a:focus {
+    color: $blue;
+    text-decoration: underline;
+  }
+  .copyright {
+    margin: 4em 0;
+  }
 }

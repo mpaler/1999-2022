@@ -74,11 +74,11 @@
 ?>
 <div id="page" <?php print $page_css ?>>
   <?php if(isset($page['show_skins_menu']) && $page['show_skins_menu']):?>
-    <?php print $page['show_skins_menu'];?>
+  <?php print $page['show_skins_menu'];?>
   <?php endif;?>
 
   <?php if($headline = render($page['headline'])): ?>
-    <!--
+  <!--
     <section id="headline" class="headline section">
       <div class="container">
         <?php print $headline; ?>
@@ -87,167 +87,166 @@
   -->
   <?php endif;?>
 
-  <header id="header" class="header section">
+  <header id="header" class="header section mb-4">
     <div class="container">
       <div class="navbar-header">
-        <?php if ($logo): ?>
-          <a href="<?php print $front_page; ?>" title="<?php print t('Back to Home'); ?>" rel="home" id="logo">
-            <img src="<?php print $logo; ?>" alt="<?php print t('Back to Home'); ?>">
-          </a>
-        <?php endif; ?>
-
-        <?php if ($site_name || $site_slogan): ?>
-          <div id="name-and-slogan">
-            <?php if ($site_name): ?>
-              <?php if ($title): ?>
-                <div id="site-name"><strong>
-                  <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><span><?php print $site_name; ?></span></a>
-                </strong></div>
-              <?php else: /* Use h1 when the content title is empty */ ?>
-                <h1 id="site-name">
-                  <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><span><?php print $site_name; ?></span></a>
-                </h1>
-              <?php endif; ?>
-            <?php endif; ?>
-
-            <?php if ($site_slogan): ?>
-              <div id="site-slogan"><?php print $site_slogan; ?></div>
-            <?php endif; ?>
-          </div>
-        <?php endif; ?>
-
         <?php print render($page['header']); ?>
-
-        <?php if($main_menu = render($page['main_menu'])): ?>
-        <?php endif; ?>
       </div>
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <a href="<?php print $front_page; ?>" title="<?php print t('Back to Home'); ?>" rel="home" id="logo"
+          class="navbar-brand">
+          <img src="<?php print $logo; ?>" alt="<?php print t('Back to Home'); ?>">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <?php
+            $p1 = request_path();
+            $p2 = explode('/', $p1);
+          ?>
 
-      <?php if ($main_menu): ?>
-        <nav class="collapse navbar-collapse  navbar navbar-default width" id="main-menu-inner">
-          <div class="container-inner">
-            <span class="btn-close"><i class="fa fa-times"></i></span>
-            <?php print $main_menu; ?>
-          </div>
-        </nav>
-      <?php endif;?>
-      <a id="menu-toggle" class="navbar-toggle" href="#menu-toggle">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link <?php echo $p2[0] == 'archive' ? " active" : ""; ?>" href="/archive">Board Archive</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <?php echo $p2[0] == 'forum' ? " active" : ""; ?>" href="/forum">Old Forums</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
     </div>
 
     <?php print render($page['help']); ?>
   </header>
+  <div class="container pl-0">
+    <div class="row m-0 mb-4 pb-1 pt-1" style="background-color: lightgray; border-radius: 5px;">
+      <div class="col col-12 pl-1 pr-1">
+        <div class="google_search">
+          <section id="google_search" class="section">
+            <script async src="https://cse.google.com/cse.js?cx=003250312232961279926:i8tfrcq3eyy">
+            </script>
+            <div class="gcse-search"></div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <?php if ($title && !$is_front): ?>
-    <section id="title" class="section-title section">
-      <div class="container">
-        <?php print render($title_prefix); ?>
-        <h1 class="title" id="page-title"><?php print $title; ?></h1>
-        <?php print render($title_suffix); ?>
-      </div>
-    </section>
+  <section id="title" class="section-title section">
+    <div class="container">
+      <?php print render($title_prefix); ?>
+      <h1 class="title" id="page-title"><?php print $title; ?></h1>
+      <?php print render($title_suffix); ?>
+    </div>
+  </section>
   <?php endif; ?>
 
   <?php if ($welcome = render($page['welcome'])): ?>
-    <section id="welcome" class="section-title section">
-      <div class="container">
-        <?php print $welcome;?>
-      </div>
-    </section>
+  <section id="welcome" class="section-title section">
+    <div class="container">
+      <?php print $welcome;?>
+    </div>
+  </section>
   <?php endif; ?>
 
   <?php if($slideshow = render($page['slideshow'])): ?>
-    <section id="slideshow" class="slideshow section">
-      <div class="container">
-        <?php print $slideshow;?>
-      </div>
-    </section>
+  <section id="slideshow" class="slideshow section">
+    <div class="container">
+      <?php print $slideshow;?>
+    </div>
+  </section>
   <?php endif;?>
 
   <?php if($panel_first = render($page['panel_first'])): ?>
-    <section id="panel-first" class="panel">
-      <div class="container">
-        <?php print $panel_first;?>
-      </div>
-    </section>
+  <section id="panel-first" class="panel">
+    <div class="container">
+      <?php print $panel_first;?>
+    </div>
+  </section>
   <?php endif; ?>
 
   <?php if ($messages): ?>
-    <section id="messages" class="message section">
-      <div class="container">
-        <?php print $messages; ?>
-      </div>
-    </section>
+  <section id="messages" class="message section">
+    <div class="container">
+      <?php print $messages; ?>
+    </div>
+  </section>
   <?php endif;?>
 
+
+
   <?php if ($breadcrumb): ?>
-    <section id="breadcrumb" class="section">
-      <div class="container">
-        <?php print $breadcrumb; ?>
-      </div>
-    </section>
+  <section id="breadcrumb" class="section">
+    <div class="container">
+      <?php print $breadcrumb; ?>
+    </div>
+  </section>
   <?php endif; ?>
 
   <?php if ($tabs): ?>
-    <section id="tabs" class="tabs">
-      <div class="container">
-        <?php print render($tabs); ?>
-      </div>
-    </section>
+  <section id="tabs" class="tabs">
+    <div class="container">
+      <?php print render($tabs); ?>
+    </div>
+  </section>
   <?php endif; ?>
 
   <section id="main" class="main section">
-        
-        <?php if ($page['highlighted']): ?><div id="highlighted"><?php print render($page['highlighted']); ?></div><?php endif; ?>
-        <a id="main-content"></a>
-        <div class="container"><?php print render($page['help']); ?></div>
-        <div class="container"><?php if ($action_links): ?><ul class="action-links"><?php print render($action_links); ?></ul><?php endif; ?></div>
-        <div class="main-container"><?php print render($page['content']); ?></div>
+
+    <?php if ($page['highlighted']): ?><div id="highlighted"><?php print render($page['highlighted']); ?></div>
+    <?php endif; ?>
+    <a id="main-content"></a>
+    <div class="container"><?php print render($page['help']); ?></div>
+    <div class="container"><?php if ($action_links): ?><ul class="action-links"><?php print render($action_links); ?>
+      </ul><?php endif; ?></div>
+    <div class="main-container"><?php print render($page['content']); ?></div>
   </section>
   <?php if($gmap = render($page['gmap'])): ?>
-    <section id="gmap">
-      <div class="container">
-        <?php print $gmap; ?>
-      </div>
-    </section>
+  <section id="gmap">
+    <div class="container">
+      <?php print $gmap; ?>
+    </div>
+  </section>
   <?php endif; ?>
 
   <?php if($panel_second = render($page['panel_second'])): ?>
-    <section id="panel-second" class="panel">
-      <div class="container">
-        <?php print $panel_second;?>
-      </div>
-    </section>
+  <section id="panel-second" class="panel">
+    <div class="container">
+      <?php print $panel_second;?>
+    </div>
+  </section>
   <?php endif; ?>
 
   <?php if($panel_third = render($page['panel_third'])): ?>
-    <section id="panel-third" class="panel">
-      <div class="container">
-        <?php print $panel_third;?>
-      </div>
-    </section>
+  <section id="panel-third" class="panel">
+    <div class="container">
+      <?php print $panel_third;?>
+    </div>
+  </section>
   <?php endif; ?>
 
   <?php if($panel_footer = render($page['panel_footer'])): ?>
-    <section id="panel-footer" class="panel">
-      <div class="container">
-        <?php //print $panel_footer;?>
-      </div>
-    </section>
+  <section id="panel-footer" class="panel">
+    <div class="container">
+      <?php //print $panel_footer;?>
+    </div>
+  </section>
   <?php endif; ?>
 
 
   <?php if($footer = render($page['footer'])): ?>
-    <footer id="footer" class="section">
-      <div class="container">
-        <?php print $footer; ?>
-        <!--?php print $feed_icons; ?-->
-      </div>
-    </footer>
+  <footer id="footer" class="section">
+    <div class="container">
+      <?php print $footer; ?>
+      <!--?php print $feed_icons; ?-->
+    </div>
+  </footer>
   <?php endif;?>
 
-  <a title="<?php print t('Back to Top')?>" class="btn-btt" href="#Top" style="display: none;"><?php print t('Top')?></a>
+  <a title="<?php print t('Back to Top')?>" class="btn-btt" href="#Top"
+    style="display: none;"><?php print t('Top')?></a>
 </div>
-
