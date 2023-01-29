@@ -91,7 +91,7 @@
 
 .front {
   .section.sponsors {
-    padding-top: 60px;
+    padding: 3rem 0 6rem 0;
     background: rgb(255, 255, 255);
     background: linear-gradient(
       0deg,
@@ -104,6 +104,7 @@
       font-family: "Bebas Neue";
       letter-spacing: 3px;
       font-size: 2rem;
+      margin-bottom: 0;
 
       &.title {
         font-size: 2.4rem;
@@ -125,6 +126,10 @@
     --platinum-max-width: 280px;
   }
 
+  .view-header {
+    padding-top: 3rem;
+  }
+
   // Medium devices (tablets, 768px and up)
   //@media (min-width: 768px) { ... }
 
@@ -144,6 +149,10 @@
   }
 
   &.view-display-id-block {
+    .col-4 {
+      height: 110px;
+    }
+
     a.sponsor-link {
       height: calc((var(--gold-max-width) / 2) - 6px);
 
@@ -155,6 +164,9 @@
   }
 
   &.view-display-id-block_1 {
+    .col-6 {
+      height: 150px;
+    }
     a.sponsor-link {
       height: calc((var(--platinum-max-width) / 2) - 6px);
 
