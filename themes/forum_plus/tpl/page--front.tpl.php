@@ -29,17 +29,10 @@
 </div>
 
 <div class="container pb-4">
-  <div class="row m-0 mb-4 pb-1 pt-1" style="background-color: lightgray; border-radius: 5px;">
-    <div class="col col-12 pl-1 pr-1">
-      <div class="google_search">
-        <section id="google_search" class="section">
-          <script async src="https://cse.google.com/cse.js?cx=003250312232961279926:i8tfrcq3eyy">
-          </script>
-          <div class="gcse-search"></div>
-        </section>
-      </div>
-    </div>
-  </div>
+  <?php
+    $block = module_invoke('swaylocks_base', 'block_view', 'swaylocks_base_google_search');
+    print $block['content'];
+  ?>
   <div class="row">
     <div class="col col-12 col-md-6 col-lg-4 mb-4">
       <a target="_blank" href="https://discord.com/invite/fR8Eu46vt6"><img
@@ -66,6 +59,22 @@
           src="https://swaylockslive.s3.us-east-2.amazonaws.com/public/keep-swaylock-alive-2.png" /></a>
     </div>
 
+  </div>
+</div>
+<div class="section sponsors">
+  <div class="container pb-4">
+    <div class="row justify-content-center">
+      <h2 class="title">Sponsors</h2>
+    </div>
+    <?php
+      $block = block_load('views', 'sponsors-block_1');      
+      $output = drupal_render(_block_get_renderable_array(_block_render_blocks(array($block))));        
+      print $output; 
+
+    $block = block_load('views', 'sponsors-block');      
+    $output = drupal_render(_block_get_renderable_array(_block_render_blocks(array($block))));        
+    print $output; 
+  ?>
   </div>
 </div>
 <?php if($footer = render($page['footer'])): ?>

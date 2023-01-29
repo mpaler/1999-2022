@@ -17,28 +17,10 @@ function swaylocks_base_ctools_plugin_api($module = NULL, $api = NULL) {
 }
 
 /**
- * Implements hook_user_default_permissions_alter().
+ * Implements hook_views_api().
  */
-function swaylocks_base_user_default_permissions_alter(&$data) {
-  if (isset($data['post comments'])) {
-    $data['post comments']['roles']['moderator'] = 'moderator'; /* WAS: '' */
-    $data['post comments']['roles']['trusted'] = 'trusted'; /* WAS: '' */
-    unset($data['post comments']['roles']['authenticated user']);
-  }
-  if (isset($data['skip comment approval'])) {
-    $data['skip comment approval']['roles']['moderator'] = 'moderator'; /* WAS: '' */
-    $data['skip comment approval']['roles']['trusted'] = 'trusted'; /* WAS: '' */
-    unset($data['skip comment approval']['roles']['authenticated user']);
-  }
-}
-
-/**
- * Implements hook_strongarm_alter().
- */
-function swaylocks_base_strongarm_alter(&$data) {
-  if (isset($data['user_register'])) {
-    $data['user_register']->value = 0; /* WAS: 1 */
-  }
+function swaylocks_base_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
 }
 
 /**
@@ -64,4 +46,22 @@ function swaylocks_base_image_default_styles() {
   );
 
   return $styles;
+}
+
+/**
+ * Implements hook_node_info().
+ */
+function swaylocks_base_node_info() {
+  $items = array(
+    'sponsor' => array(
+      'name' => t('Sponsor'),
+      'base' => 'node_content',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
+  );
+  drupal_alter('node_info', $items);
+  return $items;
 }
