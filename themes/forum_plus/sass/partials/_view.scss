@@ -253,93 +253,6 @@
     padding: 15px;
     overflow: hidden;
   }
-  //.views-row {
-  //    background: none;
-  //    margin-left: -15px;
-  //    padding: 0;
-  //    //margin-bottom: 15px;
-  //    //width: 33.33%;
-  //
-  //    .views-col {
-  //        margin-bottom: 15px;
-  //    }
-  //
-  //    .col-inner {
-  //        background: $white;
-  //        -webkit-border-radius: 3px 3px 0 0;
-  //        border-radius: 3px 3px 0 0;
-  //        margin-bottom: 0;
-  //        margin-left: 15px;
-  //        padding: 15px;
-  //        overflow: hidden;
-  //
-  //        &:before {
-  //            content: '';
-  //            position: absolute;
-  //            top: 0;
-  //            bottom: 0;
-  //            z-index: -1;
-  //            background: #fff;
-  //            width: 33.3%;
-  //        }
-  //
-  //        .views-field-type-image,
-  //        .views-field-field-video-link {
-  //            margin-left: -15px;
-  //            margin-right: -15px;
-  //            margin-top: -15px;
-  //
-  //            iframe {
-  //                margin-bottom: 20px;
-  //                width: 100%;
-  //            }
-  //        }
-  //
-  //        .forum-node-footer {
-  //            .views-field-sharethis {
-  //                .st_facebook_custom,
-  //                .st_googleplus_custom {
-  //                    &:after {
-  //                        display: none;
-  //                    }
-  //                }
-  //            }
-  //        }
-  //    }
-  //}
-  &.article {
-    .views-field-type-image,
-    .views-field-field-video-link {
-      /* padding-top: 20px; */
-    }
-  }
-}
-
-.view-surfshop {
-  .view-content {
-    //margin-left: -15px;
-  }
-  .views-view-grid .gird {
-    width: 33.33%;
-    margin-bottom: 15px;
-    padding: 0 0 0 15px;
-    margin-left: 0;
-  }
-  .grid-inner {
-    background: $white;
-    -webkit-border-radius: 3px 3px 0 0;
-    border-radius: 3px 3px 0 0;
-    padding: 15px;
-    overflow: hidden;
-  }
-  .views-field-type-image {
-    margin-bottom: 20px;
-  }
-  .views-field-title {
-    font-size: 1.2em;
-    line-height: 1.2;
-    margin-bottom: 8px;
-  }
 }
 
 .mix-blog {
@@ -509,27 +422,6 @@
     }
   }
 }
-
-/* ************ */
-
-/* .forum-table-forums {
-    tbody {
-        tr {
-            &:first-child {
-                td.forum-list-icon,
-                td.forum-list-icon-new-posts {
-                    span {
-                        &:before {
-                            color: $blue;
-                        }
-                    }
-                }
-            }
-        }
-    }
-} */
-
-/* thread detail */
 
 .status-picture {
   position: relative;
@@ -790,39 +682,16 @@
 }
 
 .view-surfcraft-archive {
-  .flexslider {
-    .views-field-title,
-    .views-field-name,
-    .views-field-field-archive-category,
-    .views-field-created {
-      padding-left: 15px;
-      padding-right: 15px;
-    }
-    .views-field-name {
-      padding-bottom: 15px;
-    }
-    .views-field-type-image {
-      margin-bottom: 15px;
-      padding: 15px;
-    }
-    .views-field-field-archive-category {
-      padding-bottom: 15px;
-    }
-    .views-field-title {
-      h3 {
-        margin-bottom: 5px;
-      }
-    }
-  }
-}
-
-.view-surfshop,
-.view-surfcraft-archive {
   clear: both;
   //padding-top: 15px;
   @include clearfix;
-  .flexslider {
-    margin-bottom: 0;
+
+  .record {
+    .row-inner {
+      padding: 10px;
+      margin: 0 10px 0 0;
+      background: $white;
+    }
   }
 }
 
@@ -969,13 +838,5 @@
 .main-inner {
   .pane-custom {
     margin-bottom: 15px;
-  }
-}
-
-.front {
-  .view-surfcraft-archive {
-    .view-content {
-      height: auto !important;
-    }
   }
 }

@@ -31,6 +31,7 @@ features[] = 'favicon'
 ; regions
 regions[headline] = Headline
 regions[header] = Header
+regions[subheader] = Sub Header
 regions[main_menu] = Main Menu
 regions[slideshow] = Slideshow
 regions[help] = Help
