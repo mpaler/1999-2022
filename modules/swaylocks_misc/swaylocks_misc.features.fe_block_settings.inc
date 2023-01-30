@@ -44,8 +44,8 @@ function swaylocks_misc_default_fe_block_settings() {
     'roles' => array(),
     'themes' => array(
       'forum_plus' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'subheader',
+        'status' => 1,
         'theme' => 'forum_plus',
         'weight' => 0,
       ),
@@ -56,7 +56,7 @@ function swaylocks_misc_default_fe_block_settings() {
 
   $export['block-adplugg_swaylocks_sidebar_1'] = array(
     'cache' => -1,
-    'css_class' => '',
+    'css_class' => 'row justify-content-center mr-0 ml-0',
     'custom' => 0,
     'machine_name' => 'adplugg_swaylocks_sidebar_1',
     'module' => 'block',
@@ -77,7 +77,7 @@ function swaylocks_misc_default_fe_block_settings() {
 
   $export['block-adplugg_swaylocks_sidebar_2'] = array(
     'cache' => -1,
-    'css_class' => '',
+    'css_class' => ' row justify-content-center mr-0 ml-0',
     'custom' => 0,
     'machine_name' => 'adplugg_swaylocks_sidebar_2',
     'module' => 'block',
