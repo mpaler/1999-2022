@@ -54,6 +54,8 @@ regions[panel_footer_1] = Panel Footer 1
 regions[panel_footer_2] = Panel Footer 2
 regions[panel_footer_3] = Panel Footer 3
 regions[panel_footer_4] = Panel Footer 4
+
+regions[pre_footer] = Pre Footer
 regions[footer] = Footer
 
 settings[sidebar_first_width] = 3

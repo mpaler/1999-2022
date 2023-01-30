@@ -5,7 +5,7 @@
     <div class="container">
       <div class="row">
         <?php if (!empty($content['content_sidebar_first'])): ?>
-        <aside class="sidebar sidebar-first col col-12 col-md-3 mt-0">
+        <aside class="sidebar sidebar-first col col-12 col-md-3 mt-0 order-last">
           <?php print $content['content_sidebar_first']; ?>
         </aside>
         <?php endif; ?>

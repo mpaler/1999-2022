@@ -105,7 +105,7 @@ span.username {
 
 /* Table name and description on forum list and table header on topic list */
 .forum-table-wrap .forum-table-superheader {
-  background-color: #f99a16;
+  background-color: #348bc2;
   border-radius: 5px 5px 0 0;
   -webkit-border-radius: 5px 5px 0 0;
   padding: 15px;
@@ -178,9 +178,7 @@ td.forum-last-reply .username {
 .forum-list-icon-legend .forum-list-legend-item .forum-list-icon-wrapper {
   display: none;
 }
-.forum-list-icon-legend
-  .forum-list-legend-item
-  .forum-list-text-legend-new-posts:before {
+.forum-list-icon-legend .forum-list-legend-item .forum-list-text-legend-new-posts:before {
   color: #348bc2;
 }
 
@@ -523,13 +521,7 @@ div.forum-post {
 .forum-top-post-footer {
   border: 2px solid #2587c4;
   background: #edf5fa;
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(#cbe2f1),
-    to(#edf5fa)
-  );
+  background: -webkit-gradient(linear, left top, left bottom, from(#cbe2f1), to(#edf5fa));
   background: -moz-linear-gradient(top, #cbe2f1, #edf5fa);
 }
 
@@ -537,13 +529,7 @@ div.forum-post {
 .forum-topic-navigation {
   border: 2px solid #2587c4;
   background: #edf5fa;
-  background: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(#cbe2f1),
-    to(#edf5fa)
-  );
+  background: -webkit-gradient(linear, left top, left bottom, from(#cbe2f1), to(#edf5fa));
   background: -moz-linear-gradient(top, #cbe2f1, #edf5fa);
 }
 
@@ -597,7 +583,7 @@ div.forum-post {
   background-color: gray;
 }
 .forum_subscribe a.flag-action {
-  background-color: #f99a16;
+  background-color: #348bc2;
 }
 
 .forum-table {
@@ -640,7 +626,7 @@ div.forum-post {
 }
 
 .forum-table-topics {
-  background-color: #f99a16;
+  background-color: #348bc2;
 }
 .forum-table-topics thead tr {
   background: none;

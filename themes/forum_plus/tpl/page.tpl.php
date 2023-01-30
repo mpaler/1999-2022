@@ -210,16 +210,14 @@
   </section>
   <?php endif; ?>
 
-  <?php if($panel_footer = render($page['panel_footer'])): ?>
-  <section id="panel-footer" class="panel">
-    <div class="container">
-      <?php //print $panel_footer;?>
-    </div>
-  </section>
+  <?php if($pre_footer = render($page['pre_footer'])): ?>
+  <div class="container pb-4">
+    <?php print $pre_footer;?>
+  </div>
   <?php endif; ?>
   <?php if ($tabs): ?>
   <section id="tabs" class="tabs">
-    <div class="container">
+    <div class="container pb-4">
       <?php print render($tabs); ?>
     </div>
   </section>
@@ -229,7 +227,6 @@
   <footer id="footer" class="section">
     <div class="container">
       <?php print $footer; ?>
-      <!--?php print $feed_icons; ?-->
     </div>
   </footer>
   <?php endif;?>

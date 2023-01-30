@@ -1711,7 +1711,7 @@ function swaylocks_misc_default_page_manager_pages() {
   $pane->access = array();
   $pane->configuration = array(
     'override_title' => 1,
-    'override_title_text' => 'Archive Categories',
+    'override_title_text' => 'Board Archive',
     'override_title_heading' => 'h2',
   );
   $pane->cache = array();
