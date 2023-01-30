@@ -18,6 +18,9 @@ function swaylocks_misc_menu_default_menu_links() {
     'link_title' => 'Board Archive',
     'options' => array(
       'identifier' => 'main-menu_board-archive:archive',
+      'attributes' => array(
+        'title' => '',
+      ),
     ),
     'module' => 'system',
     'hidden' => 0,

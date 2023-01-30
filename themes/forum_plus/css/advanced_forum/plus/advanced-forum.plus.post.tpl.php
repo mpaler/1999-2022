@@ -20,16 +20,16 @@
 ?>
 
 <?php if ($top_post): ?>
-  <?php print $topic_header ?>
+<?php print $topic_header ?>
 <?php endif; ?>
 <div id="<?php print $post_id; ?>" class="<?php print $classes; ?>" <?php print $attributes; ?>>
   <div class="forum-post-info clearfix">
     <div class="forum-posted-on">
       <?php if ($top_post): ?>
-        <?php print format_date($node->created, 'custom', 'M d, Y g:i a'); ?>
+      <?php print format_date($node->created, 'custom', 'M d, Y g:i a'); ?>
       <?php endif; ?>
       <?php if (!$top_post): ?>
-        <?php print format_date($content['comment_body']['#object']->created, 'custom', 'M d, Y g:i a'); ?>
+      <?php print format_date($content['comment_body']['#object']->created, 'custom', 'M d, Y g:i a'); ?>
       <?php endif; ?>
 
       <?php
@@ -39,35 +39,35 @@
       // caching the new markers.
       ?>
       <?php if (!$top_post): ?>
-        <?php if (!empty($new)): ?>
-          <a id="new"><span class="new">(<?php print $new ?>)</span></a>
-        <?php endif; ?>
+      <?php if (!empty($new)): ?>
+      <a id="new"><span class="new">(<?php print $new ?>)</span></a>
+      <?php endif; ?>
 
-        <?php if (!empty($first_new)): ?>
-          <?php print $first_new; ?>
-        <?php endif; ?>
+      <?php if (!empty($first_new)): ?>
+      <?php print $first_new; ?>
+      <?php endif; ?>
 
-        <?php if (!empty($new_output)): ?>
-          <?php print $new_output; ?>
-        <?php endif; ?>
+      <?php if (!empty($new_output)): ?>
+      <?php print $new_output; ?>
+      <?php endif; ?>
       <?php endif; ?>
     </div>
     <?php /* End of posted on div. */ ?>
 
     <?php if (!empty($in_reply_to)): ?>
-   	 <span class="forum-in-reply-to"><?php print $in_reply_to; ?></span>
+    <span class="forum-in-reply-to"><?php print $in_reply_to; ?></span>
     <?php endif; ?>
 
     <?php /* Add a note when a post is unpublished so it doesn't rely on theming. */ ?>
     <?php if (!$node->status): ?>
-      <span class="unpublished-post-note"><?php print t("Unpublished post") ?></span>
+    <span class="unpublished-post-note"><?php print t("Unpublished post") ?></span>
     <?php endif; ?>
 
     <?php if ($top_post): ?>
-      <span class="forum-post-number"><?php print $permalink; ?>
-    <?php endif; ?>
+    <span class="forum-post-number"><?php print $permalink; ?>
+      <?php endif; ?>
 
-    <?php if (!$top_post): 
+      <?php if (!$top_post): 
       
       $query = array();
       if($_SERVER['QUERY_STRING']) {
@@ -88,24 +88,24 @@
   
       ?>
       <span class="forum-post-number"><?php print $link; ?>
-    <?php endif; ?>
+        <?php endif; ?>
 
-    
-  </span>
+
+      </span>
   </div> <?php /* End of post info div. */ ?>
 
   <div class="forum-post-wrapper">
     <div class="forum-post-panel-sub">
       <?php if (!empty($author_pane)): ?>
-        <?php print $author_pane; ?>
+      <?php print $author_pane; ?>
       <?php endif; ?>
     </div>
 
     <div class="forum-post-panel-main clearfix">
       <?php if (!empty($title)): ?>
-        <div class="forum-post-title">
-          <?php print $title ?>
-        </div>
+      <div class="forum-post-title">
+        <?php print $title ?>
+      </div>
       <?php endif; ?>
 
       <div class="forum-post-content">
@@ -123,15 +123,15 @@
       </div>
 
       <?php if (!empty($post_edited)): ?>
-        <div class="post-edited">
-          <?php print $post_edited ?>
-        </div>
+      <div class="post-edited">
+        <?php print $post_edited ?>
+      </div>
       <?php endif; ?>
 
       <?php if (!empty($signature)): ?>
-        <div class="author-signature">
-          <?php print $signature ?>
-        </div>
+      <div class="author-signature">
+        <?php print $signature ?>
+      </div>
       <?php endif; ?>
     </div>
   </div>
@@ -139,11 +139,8 @@
 
   <div class="forum-post-footer clearfix">
     <div class="forum-jump-links">
-      <a href="#forum-topic-top" title="<?php print t('Jump to top of page'); ?>" class="af-button-small"><span><?php print t("Top"); ?></span></a>
-    </div>
-
-    <div class="forum-post-links">
-      <?php print render($content['links']); ?>
+      <a href="#forum-topic-top" title="<?php print t('Jump to top of page'); ?>"
+        class="af-button-small"><span><?php print t("Top"); ?></span></a>
     </div>
   </div>
   <?php /* End of footer div. */ ?>

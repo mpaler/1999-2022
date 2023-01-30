@@ -5271,6 +5271,7 @@ function swaylocks_misc_field_default_field_instances() {
         'target' => '_blank',
         'title' => '',
       ),
+      'convert_aliases' => 0,
       'display' => array(
         'url_cutoff' => 80,
       ),

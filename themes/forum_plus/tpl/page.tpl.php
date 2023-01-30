@@ -118,14 +118,13 @@
         </div>
       </nav>
     </div>
-
-    <?php print render($page['help']); ?>
   </header>
-  <div class="container pl-0">
+  <div class="subheader container p-0">
     <?php
       $block = module_invoke('swaylocks_base', 'block_view', 'swaylocks_base_google_search');
       print $block['content'];
     ?>
+    <?php print render($page['subheader']); ?>
   </div>
   <?php if ($title && !$is_front): ?>
   <section id="title" class="section-title section">
@@ -173,22 +172,12 @@
 
   <?php if ($breadcrumb): ?>
   <section id="breadcrumb" class="section">
-    <div class="container">
+    <div class="container p-0">
       <?php print $breadcrumb; ?>
     </div>
   </section>
   <?php endif; ?>
-
-  <?php if ($tabs): ?>
-  <section id="tabs" class="tabs">
-    <div class="container">
-      <?php print render($tabs); ?>
-    </div>
-  </section>
-  <?php endif; ?>
-
   <section id="main" class="main section">
-
     <?php if ($page['highlighted']): ?><div id="highlighted"><?php print render($page['highlighted']); ?></div>
     <?php endif; ?>
     <a id="main-content"></a>
@@ -221,10 +210,15 @@
   </section>
   <?php endif; ?>
 
-  <?php if($panel_footer = render($page['panel_footer'])): ?>
-  <section id="panel-footer" class="panel">
-    <div class="container">
-      <?php //print $panel_footer;?>
+  <?php if($pre_footer = render($page['pre_footer'])): ?>
+  <div class="container pb-4">
+    <?php print $pre_footer;?>
+  </div>
+  <?php endif; ?>
+  <?php if ($tabs): ?>
+  <section id="tabs" class="tabs">
+    <div class="container pb-4">
+      <?php print render($tabs); ?>
     </div>
   </section>
   <?php endif; ?>
@@ -233,7 +227,6 @@
   <footer id="footer" class="section">
     <div class="container">
       <?php print $footer; ?>
-      <!--?php print $feed_icons; ?-->
     </div>
   </footer>
   <?php endif;?>

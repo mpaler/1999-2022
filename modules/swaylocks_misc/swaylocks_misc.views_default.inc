@@ -256,7 +256,7 @@ function swaylocks_misc_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Photo Archive';
-  $handler->display->display_options['css_class'] = 'three-column article forum-blog-view';
+  $handler->display->display_options['css_class'] = 'article forum-blog-view';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -268,6 +268,9 @@ function swaylocks_misc_views_default_views() {
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['row_class'] = 'col col-12 col-md-6 col-lg-4 d-sm-flex justify-content-center mb-4 record';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   /* Relationship: Content: Content author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
@@ -279,22 +282,12 @@ function swaylocks_misc_views_default_views() {
   $handler->display->display_options['fields']['field_archive_images']['table'] = 'field_data_field_archive_images';
   $handler->display->display_options['fields']['field_archive_images']['field'] = 'field_archive_images';
   $handler->display->display_options['fields']['field_archive_images']['label'] = '';
+  $handler->display->display_options['fields']['field_archive_images']['element_class'] = 'pb-2';
   $handler->display->display_options['fields']['field_archive_images']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_archive_images']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_archive_images']['settings'] = array(
     'image_style' => 'grid-3',
     'image_link' => 'content',
-    'custom_link_to_entity' => 1,
-    'custom_prefix' => '',
-    'custom_suffix' => '',
-    'custom_reverse' => 0,
-    'custom_trim' => 0,
-    'custom_strtolower' => 0,
-    'custom_strtoupper' => 0,
-    'custom_ucfirst' => 0,
-    'custom_ucwords' => 0,
-    'custom_strip_tags' => 0,
-    'custom_strip_preserve' => '',
   );
   $handler->display->display_options['fields']['field_archive_images']['delta_limit'] = '1';
   $handler->display->display_options['fields']['field_archive_images']['delta_offset'] = '0';
