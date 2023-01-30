@@ -2,7 +2,7 @@
   class="panel-display boxton clearfix <?php if (!empty($classes)) { print $classes; } ?><?php if (!empty($class)) { print $class; } ?>"
   <?php if (!empty($css_id)) { print "id=\"$css_id\""; } ?>>
   <section id="content-main-wrapper" class="content-main sidebar-second-wrapper">
-    <div class="container p-0 pr-3">
+    <div class="container p-0 pr-sm-3">
       <div class="row">
         <?php if (!empty($content['content_main'])): ?>
         <div class="main-inner col-md-9">

@@ -9,6 +9,14 @@ pre {
   margin-right: auto;
 }
 
+.page-forum {
+  .main-container {
+    @media (min-width: 576px) {
+      padding: 0 15px;
+    }
+  }
+}
+
 .sidebar {
   padding-left: 0;
   padding-right: 0;
