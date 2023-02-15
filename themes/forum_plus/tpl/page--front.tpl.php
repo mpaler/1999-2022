@@ -27,6 +27,11 @@
     </div>
   </div>
 </div>
+<div class="global-sponsors d-flex justify-content-center"><span class="lead">Special Global Sponsors</span><a
+    href="https://resinresearch.net/" target="_blank" rel="sponsored noopener"><img
+      src="https://swaylockslive.s3.amazonaws.com/public/logos/resin-research-horizonal-black.png"
+      alt="Resin Research"></a>
+</div>
 
 <div class="container pb-4">
   <?php
@@ -63,9 +68,6 @@
 </div>
 <div class="section sponsors">
   <div class="container pb-4">
-    <div class="row justify-content-center">
-      <h2 class="title">Sponsors</h2>
-    </div>
     <?php
       $block = block_load('views', 'sponsors-block_1');      
       $output = drupal_render(_block_get_renderable_array(_block_render_blocks(array($block))));        

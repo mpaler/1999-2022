@@ -73,7 +73,7 @@ function swaylocks_base_views_default_views() {
   $handler->display->display_options['fields']['uri']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['uri']['alter']['path'] = '[field_url]';
   $handler->display->display_options['fields']['uri']['alter']['alt'] = '[title]';
-  $handler->display->display_options['fields']['uri']['alter']['link_class'] = 'm-2 sponsor-link';
+  $handler->display->display_options['fields']['uri']['alter']['link_class'] = 'sponsor-link m-1';
   $handler->display->display_options['fields']['uri']['alter']['target'] = '_blank';
   $handler->display->display_options['fields']['uri']['element_class'] = 'bg-white m-2';
   $handler->display->display_options['fields']['uri']['element_label_colon'] = FALSE;

@@ -119,6 +119,11 @@
       </nav>
     </div>
   </header>
+  <div class="global-sponsors d-flex justify-content-center"><span class="lead">Special Global Sponsors</span><a
+      href="https://resinresearch.net/" target="_blank" rel="sponsored noopener"><img
+        src="https://swaylockslive.s3.amazonaws.com/public/logos/resin-research-horizonal-black.png"
+        alt="Resin Research"></a>
+  </div>
   <div class="subheader container p-0">
     <?php
       $block = module_invoke('swaylocks_base', 'block_view', 'swaylocks_base_google_search');
