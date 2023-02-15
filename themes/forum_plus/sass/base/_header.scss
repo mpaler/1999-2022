@@ -16,15 +16,20 @@
   .gsc-control-cse {
     background: none;
     border: none;
+    padding: 5px 5px 2px 5px;
 
     table {
       border-collapse: unset;
+
+      td.gsc-input {
+        padding-right: 6px;
+      }
     }
   }
 
   .gsc-search-button {
     margin-left: 2px;
-    height: 3.1rem !important;
+    height: 2.6rem !important;
     border-radius: 5px !important;
   }
 
@@ -36,9 +41,12 @@
 
     input.gsc-input {
       background: url(https://swaylockslive.s3.amazonaws.com/public/icons/search-swaylocks.png)
-        left center no-repeat transparent !important;
-      height: 2.5rem !important;
-      font-size: 2rem !important;
+        transparent !important;
+      background-position: left center !important;
+      background-repeat: no-repeat !important;
+      background-size: 175px !important;
+      height: 2rem !important;
+      font-size: 1.3rem !important;
       margin: 0 !important;
     }
 
