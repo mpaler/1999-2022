@@ -57,7 +57,7 @@
         <!-- Links -->
         <h6 class="text-uppercase fw-bold">Business stuff</h6>
         <hr class="mb-4 mt-4 d-inline-block mx-auto" style="width: 60px; background-color: #444; height: 2px" />
-        <p><a href="https://ko-fi.com/swaylocks/tiers" target="_blank">Sponsor Swaylock's</a></p>
+        <p><a href="/sponsor">Sponsor Swaylock's</a></p>
         <p><img style="opacity: 50%;" class="logo-footer"
             src="https://swaylockslive.s3.amazonaws.com/public/icons/phone.svg" />
           +1(415) 902-1851</p>
