@@ -40,24 +40,32 @@
   ?>
   <div class="row">
     <div class="col col-12 col-md-6 col-lg-4 mb-4">
-      <a target="_blank" href="https://discord.com/invite/fR8Eu46vt6"><img
-          src="https://swaylockslive.s3.us-east-2.amazonaws.com/public/forums-blue-1.png" /></a>
+      <a target="_blank" href="https://sos.swaylocks.com"><img
+          src="https://swaylockslive.s3.amazonaws.com/public/sos-home-min.png" /></a>
     </div>
     <div class="col col-12 col-md-6 col-lg-4 mb-4">
       <a target="_blank" href="https://swaylocks.substack.com"><img
           src="https://swaylockslive.s3.us-east-2.amazonaws.com/public/digest-square.png" /></a>
     </div>
     <div class="col col-12 col-md-6 col-lg-4 mb-4">
+      <a target="_blank" href="https://discord.com/invite/fR8Eu46vt6"><img
+          src="https://swaylockslive.s3.us-east-2.amazonaws.com/public/forums-blue-1.png" /></a>
+    </div>
+    <div class="col col-12 col-md-6 col-lg-4 mb-4">
       <a target="_blank" href="https://swaylocks.substack.com/p/enter-to-win-new-build-of-the-month"><img
           src="https://swaylockslive.s3.us-east-2.amazonaws.com/public/build-of-the-month-12.png" /></a>
     </div>
     <div class="col col-12 col-md-6 col-lg-4 mb-4">
-      <a target="_blank" href="/archive"><img
-          src="https://swaylockslive.s3.us-east-2.amazonaws.com/public/the-archives-1.png" /></a>
+      <a target="_blank" href="https://ko-fi.com/swaylocks/shop"><img
+          src="https://swaylockslive.s3.amazonaws.com/public/swag-shop-1080.png" /></a>
     </div>
     <div class="col col-12 col-md-6 col-lg-4 mb-4">
       <a target="_blank" href="https://www.instagram.com/swaylocksarchive/"><img
           src="https://swaylockslive.s3.us-east-2.amazonaws.com/public/instagram-smaller.jpg" /></a>
+    </div>
+    <div class="col col-12 col-md-6 col-lg-4 mb-4">
+      <a target="_blank" href="/archive"><img
+          src="https://swaylockslive.s3.us-east-2.amazonaws.com/public/the-archives-1.png" /></a>
     </div>
     <div class="col col-12 col-md-6 col-lg-4 mb-4">
       <a target="_blank" href="https://ko-fi.com/swaylocks"><img
